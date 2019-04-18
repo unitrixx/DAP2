@@ -1,5 +1,3 @@
-package Praktikum.Blatt4;
-
 public class EuclidDistance implements Distance {
 
     public double distance(Point p1, Point p2) {
