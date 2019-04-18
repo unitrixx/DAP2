@@ -1,5 +1,3 @@
-package Praktikum.Blatt4;
-
 public class Triangle extends Simplex{
 
     public Triangle(Point p1, Point p2, Point p3){
