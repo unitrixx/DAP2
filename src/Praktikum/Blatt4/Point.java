@@ -1,4 +1,4 @@
-package Praktikum.Blatt4;
+
 
 public class Point {
 
@@ -13,7 +13,7 @@ public class Point {
     }
 
     public Point(double... values) {
-        new Point(values.length, values);
+        this(values.length, values);
     }
 
     public int dim() {

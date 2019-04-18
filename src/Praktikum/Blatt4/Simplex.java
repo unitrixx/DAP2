@@ -1,5 +1,3 @@
-package Praktikum.Blatt4;
-
 public abstract class Simplex {
 
     int d;

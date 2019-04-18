@@ -1,5 +1,3 @@
-package Praktikum.Blatt4;
-
 public class Application {
 
     public static String INFO = "Ein valider Aufruf geschieht entweder ohne Parameter oder besitzt 6 Parameter.\n"
