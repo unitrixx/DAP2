@@ -1,5 +1,3 @@
-
-
 public class Point {
 
     private int d;

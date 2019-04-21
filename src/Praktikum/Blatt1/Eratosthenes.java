@@ -1,5 +1,3 @@
-package Praktikum.Blatt1;
-
 public class Eratosthenes {
 
     public static void main(String[] args){

@@ -1,5 +1,3 @@
-package Praktikum.Blatt2;
-
 public class Sortierung {
 
     public static void main(String[] args) {
