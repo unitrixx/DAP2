@@ -33,12 +33,12 @@ public abstract class Simplex {
 
         //  Schleife zur Aufsummierung der Abstände der Eckpunkte
         for (int i = 0; i < points.length; i++) {
-            for (int j = i+1; j < points.length; j++) {
-                if (j == points.length)
-                    perim +=points[i].distance(points[0]);
-                else
-                    perim += points[i].distance(points[j]);
-            }
+            double distance;
+            if (i == 0)
+                distance = points[points.length-1].distance(points[i]);
+            else
+                distance = points[i-1].distance(points[i]);
+            perim += distance;
         }
         return perim;
     }
