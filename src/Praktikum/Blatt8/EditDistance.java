@@ -65,33 +65,27 @@ public class EditDistance {
         System.out.print("\n");
         /**********************************/
 
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                System.out.print(array[i][j] + " ");
-            }
-            System.out.print("\n");
-        }
-
         int i = a.length();
         int j = b.length();
 
         Stack<Integer> out = new Stack<>();
 
+        //  "Weg" der Berechnung rekonstuieren
         while (i > 0 && j > 0){
-            if (array[i-1][j-1] == array[i][j] - 1){
+            if (array[i-1][j-1] < array[i][j]){
                 out.push(1);    //  1 = ersetzen
                 i--;
                 j--;
             }
-            if (array[i][j-1] == array[i][j] - 1){
+            else if (array[i][j-1] < array[i][j]){
                 out.push(2);    //  2 = einfügen
                 j--;
             }
-            if (array[i-1][j] == array[i][j] - 1){
+            else if (array[i-1][j] < array[i][j]){
                 out.push(3);    //  3 = löschen
                 i--;
             }
-            if (array[i-1][j-1] == array[i][j]){
+            else if (array[i-1][j-1] == array[i][j]){
                 out.push(0);    //  0 = beibehalten
                 i--;
                 j--;
@@ -106,8 +100,60 @@ public class EditDistance {
             j--;
         }
 
-        while (!out.isEmpty())
-            System.out.println(out.pop());
+        char[] ar = a.toCharArray();
+        char[] br = b.toCharArray();
+
+        int k = 1;
+        int n = 1;
+        int maxLength = Math.max(a.length(), b.length());
+
+        //  Ausgabe erzeugen
+        while (!out.isEmpty() && k <= maxLength) {
+            System.out.print(n + ") ");
+            if (out.peek() == 0) {
+                System.out.print("Kosten 0: " + ar[k - 1] + " an Postition " + k);
+                System.out.print(" --> " + new String(ar));
+            }
+            else if (out.peek() == 1){
+                System.out.print("Kosten 1: Ersetze " + ar[k-1] + " durch " + br[k-1] + " an Position " + k);
+                ar[k-1] = br[k-1];
+                System.out.print(" --> " + new String(ar));
+            }
+            else if (out.peek() == 2){
+                System.out.print("Kosten 1: Fuege " + br[k-1] + " an Position " + k + " ein");
+                char[] arn = new char[ar.length+1];
+                for (int l = 0; l < arn.length; l++) {
+                    if (l == k-1)
+                        arn[l] = br[l];
+                    else if (l < k-1)
+                        arn[l] = ar[l];
+                    else
+                        arn[l] = ar[l-1];
+                }
+                ar = arn;
+                System.out.print(" --> " + new String(ar));
+            }
+            else if (out.peek() == 3){
+                System.out.print("Kosten 1: Loesche " + ar[k-1] + " an Position " + k);
+                char[] arn = new char[ar.length-1];
+                for (int l = 0; l < ar.length; l++) {
+                    if (l == k-1) {
+                        continue;
+                    }
+                    else if (l < k-1)
+                        arn[l] = ar[l];
+                    else
+                        arn[l-1] = ar[l];
+                }
+                ar = arn;
+                System.out.print(" --> " + new String(ar));
+                k--;
+            }
+            System.out.print("\n");
+            k++;
+            n++;
+            out.pop();
+        }
     }
 
 }
