@@ -2,30 +2,37 @@ import java.util.Stack;
 
 public class EditDistance {
 
+    public static final String INFO = "Es werden folgende Eingaben benötigt: \n" +
+            "Zuerst werden zwei Strings erwartet, deren Editierdistanz bestimmt werden soll. \n" +
+            "Als dritten (optionalen) Parameter wird \"-o\" erwartet, was eine Ausgabe der einzelnen " +
+            "Editieroperationen erzeugt.";
+
     public static void main (String[] args){
-        boolean output = false;
-        if (args.length > 3){
-            System.out.println("Error!!");
+
+        boolean output = false; //  Parameter für den Output
+        if (args.length > 3){   //  Es werden maximal drei Eingaben benötigt
+            System.out.println(INFO);
             System.exit(0);
         }
         if (args.length == 3 && args[2].equals("-o"))
             output = true;
         else if (args.length == 3){
-            System.out.println("Error!!");
+            System.out.println(INFO);
             System.exit(0);
         }
         String a = args[0];
         String b = args[1];
-        int[][] editDistance = distance(a, b);
-        if (!output)
+        int[][] editDistance = distance(a, b);  //  Editierdistanz berechnen
+        if (!output)    //  keine explizite Ausgabe gefordert -> nur Strings und deren Distanz ausgeben
             System.out.println("Kuerzeste Editierdistanz zwischen \n"
                     + a + " und " + b + " betraegt: \n" +
                     editDistance[a.length()][b.length()]);
         else {
-            printEditOperations(editDistance, a, b);
+            printEditOperations(editDistance, a, b);    //  Ausgabe erzeugen
         }
     }
 
+    //  Implementierung der gegebenen Rekursionsgleichung
     public static int[][] distance(String a, String b){
 
         int[][] array = new int[a.length() + 1][b.length() + 1];
@@ -65,10 +72,10 @@ public class EditDistance {
         System.out.print("\n");
         /**********************************/
 
-        int i = a.length();
-        int j = b.length();
+        int i = a.length();      //  Zähler für das zweidimensionale Array
+        int j = b.length();      //  werden mit Maximum initialisiert um beim Ergebnis der Distanzberechnung zu beginnen
 
-        Stack<Integer> out = new Stack<>();
+        Stack<Integer> out = new Stack<>();     //  Stack für die einzelnen Schritte
 
         //  "Weg" der Berechnung rekonstuieren
         while (i > 0 && j > 0){
@@ -91,20 +98,21 @@ public class EditDistance {
                 j--;
             }
         }
+        //  Wenn einer der Ränder des Arrays erreicht ist, ist nur noch löschen und einfügen möglich
         while (i > 0) {
-            out.push(3);
+            out.push(3);    //  löschen
             i--;
         }
         while (j > 0) {
-            out.push(2);
+            out.push(2);    //  einfügen
             j--;
         }
 
-        char[] ar = a.toCharArray();
+        char[] ar = a.toCharArray();    // Strings zu Arrays konvertieren, um die zu bearbeiten
         char[] br = b.toCharArray();
 
-        int k = 1;
-        int n = 1;
+        int k = 1;      //  Zähler für die zu bearbeitende Position der Strings
+        int n = 1;      //  Zähler für die ausgegebenen Schritte
         int maxLength = Math.max(a.length(), b.length());
 
         //  Ausgabe erzeugen
@@ -121,9 +129,9 @@ public class EditDistance {
             }
             else if (out.peek() == 2){
                 System.out.print("Kosten 1: Fuege " + br[k-1] + " an Position " + k + " ein");
-                char[] arn = new char[ar.length+1];
-                for (int l = 0; l < arn.length; l++) {
-                    if (l == k-1)
+                char[] arn = new char[ar.length+1];         //  Für Einfügen muss der String bzw. das Array um 1 verlängert werden
+                for (int l = 0; l < arn.length; l++) {      //  und alle Buchstaben, die nach der zu bearbeitenden Position kommen
+                    if (l == k-1)                           //  um eine Stelle nach hinten verschoben werden
                         arn[l] = br[l];
                     else if (l < k-1)
                         arn[l] = ar[l];
@@ -135,9 +143,9 @@ public class EditDistance {
             }
             else if (out.peek() == 3){
                 System.out.print("Kosten 1: Loesche " + ar[k-1] + " an Position " + k);
-                char[] arn = new char[ar.length-1];
-                for (int l = 0; l < ar.length; l++) {
-                    if (l == k-1) {
+                char[] arn = new char[ar.length-1];         //  Für Löschen muss der String bzw. das Array um 1 gekürzt werden
+                for (int l = 0; l < ar.length; l++) {       //  und alle Buchstaben, die nach der zu bearbeitenden Position kommen
+                    if (l == k-1) {                         //  um eine Stelle nach vorne verschoben werden
                         continue;
                     }
                     else if (l < k-1)
@@ -152,7 +160,7 @@ public class EditDistance {
             System.out.print("\n");
             k++;
             n++;
-            out.pop();
+            out.pop();      //  Betrachteten Schritt aus dem Stack entfernen
         }
     }
 
